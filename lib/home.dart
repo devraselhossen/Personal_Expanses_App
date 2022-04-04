@@ -15,10 +15,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-        id: "t1", title: "New Bat", amount: 780.50, date: DateTime.now()),
-    Transaction(
-        id: "t2", title: "New Ball", amount: 120.50, date: DateTime.now()),
+    // Transaction(
+    //     id: "t1", title: "New Bat", amount: 780.50, date: DateTime.now()),
+    // Transaction(
+    //     id: "t2", title: "New Ball", amount: 120.50, date: DateTime.now()),
   ];
 
   void _addNewTransaction(String txTitle, double txAmount) {
@@ -38,10 +38,10 @@ class _HomeState extends State<Home> {
         context: ctx,
         builder: (_) {
           return GestureDetector(
-            onTap: (){},
+            onTap: () {},
             child: NewTransaction(_addNewTransaction),
             behavior: HitTestBehavior.opaque,
-            );
+          );
         });
   }
 
@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My App"),
+        title: Text("Personal Expanses"),
         actions: [
           IconButton(
               onPressed: () {
@@ -59,20 +59,26 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            width: double.infinity,
-            child: Card(
-              elevation: 5,
-              child: Text("Chart!"),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: Card(
+                    elevation: 5,
+                    child: Center(
+                        child: Text(
+                      "Chart!",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    )),
+                  ),
+                ),
+                TransactionList(_userTransactions)
+              ],
             ),
-          ),
-          TransactionList(_userTransactions)
-        ],
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
+        foregroundColor: Colors.white,
         onPressed: () {
           startAddNewTransaction(context);
         },
