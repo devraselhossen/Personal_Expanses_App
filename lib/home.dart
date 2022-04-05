@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, deprecated_member_use
 
-import 'package:add_product_demo/widget/new_transaction.dart';
-import 'package:add_product_demo/widget/transaction_list.dart';
+
 import 'package:flutter/material.dart';
 
 import 'model/transaction.dart';
+import 'widget/chart.dart';
+import 'widget/new_transaction.dart';
+import 'widget/transaction_list.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -31,6 +33,12 @@ class _HomeState extends State<Home> {
     setState(() {
       _userTransactions.add(newTx);
     });
+  }
+
+  List<Transaction> get _recentTransactions{
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
   }
 
   void startAddNewTransaction(BuildContext ctx) {
@@ -61,18 +69,7 @@ class _HomeState extends State<Home> {
       body: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                  width: double.infinity,
-                  height: 50,
-                  child: Card(
-                    elevation: 5,
-                    child: Center(
-                        child: Text(
-                      "Chart!",
-                      style: Theme.of(context).textTheme.titleMedium,
-                    )),
-                  ),
-                ),
+                Chart(_recentTransactions),
                 TransactionList(_userTransactions)
               ],
             ),
