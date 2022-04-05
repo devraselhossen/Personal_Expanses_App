@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, deprecated_member_use
 
-
 import 'package:flutter/material.dart';
 
 import 'model/transaction.dart';
@@ -35,7 +34,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  List<Transaction> get _recentTransactions{
+  List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
     }).toList();
@@ -67,12 +66,12 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Chart(_recentTransactions),
-                TransactionList(_userTransactions)
-              ],
-            ),
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Chart(_recentTransactions),
+          TransactionList(_userTransactions)
+        ],
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         foregroundColor: Colors.white,

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../model/transaction.dart';
+import 'chart_bar.dart';
 
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransaction;
 
   Chart(this.recentTransaction);
 
-  List<Map<String, Object>> get groupedTransactionValues {
+  List<Map<String, dynamic>> get groupedTransactionValues {
     return List.generate(
       7,
       (index) {
@@ -20,11 +21,20 @@ class Chart extends StatelessWidget {
               recentTransaction[i].date.month == weakDay.month &&
               recentTransaction[i].date.year == weakDay.year) {
             totalSum += recentTransaction[i].amount;
-          } 
+          }
         }
-        return {"day": DateFormat.E().format(weakDay).substring(0, 1), "amount": totalSum};
+        return {
+          "day": DateFormat.E().format(weakDay).substring(0, 1),
+          "amount": totalSum
+        };
       },
     );
+  }
+
+  double get totalSpending {
+    return groupedTransactionValues.fold(0.0, (previousValue, element) {
+      return previousValue + element["amount"];
+    });
   }
 
   @override
@@ -35,7 +45,12 @@ class Chart extends StatelessWidget {
       margin: EdgeInsets.all(20),
       child: Row(
         children: groupedTransactionValues.map((value) {
-          return Text('${value['day']}:${value['amount']}'+"  ");
+          return ChartBar(
+              value["day"],
+              value["amount"],
+              totalSpending == 0.0
+                  ? 0.0
+                  : (value["amount"] as double) / totalSpending);
         }).toList(),
       ),
     );
