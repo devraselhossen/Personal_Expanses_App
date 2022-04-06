@@ -75,16 +75,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: OpenSans
+    - family: Lato-Semibold
       fonts:
-        - asset: fonts/OpenSans-Bold.ttf
-        - asset: fonts/OpenSans-Italic.ttf
-        - asset: fonts/OpenSans-Regular.ttf
+        - asset: fonts/Lato-Semibold.ttf
           weight: 700
-    - family: QuickSand
+    - family: PlayfairDisplay
       fonts:
-        - asset: fonts/Quicksand_Bold_Oblique.otf
-          weight: 700
+        - asset: fonts/PlayfairDisplay-Bold.ttf
+          weight: 900
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

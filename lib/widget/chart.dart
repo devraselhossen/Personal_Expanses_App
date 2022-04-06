@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -24,11 +26,11 @@ class Chart extends StatelessWidget {
           }
         }
         return {
-          "day": DateFormat.E().format(weakDay).substring(0, 1),
+          "day": DateFormat.E().format(weakDay),
           "amount": totalSum
         };
       },
-    );
+    ).reversed.toList();
   }
 
   double get totalSpending {
@@ -39,19 +41,25 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(groupedTransactionValues);
     return Card(
       elevation: 5,
       margin: EdgeInsets.all(20),
-      child: Row(
-        children: groupedTransactionValues.map((value) {
-          return ChartBar(
-              value["day"],
-              value["amount"],
-              totalSpending == 0.0
-                  ? 0.0
-                  : (value["amount"] as double) / totalSpending);
-        }).toList(),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactionValues.map((value) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                  value["day"],
+                  value["amount"],
+                  totalSpending == 0.0
+                      ? 0.0
+                      : (value["amount"] as double) / totalSpending),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

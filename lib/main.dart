@@ -15,22 +15,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.purple,
-        accentColor: Colors.amber,
-        fontFamily: "OpenSans",
+        accentColor: Color.fromRGBO(255, 193, 7, 1),
+        fontFamily: "Lato-Semibold",
 
         textTheme: TextTheme(
           titleMedium: TextStyle(
-            fontFamily: "OpenSans",
+            fontFamily: "PlayfairDisplay",
             fontWeight: FontWeight.bold,
             color: Colors.black,
-            fontSize: 16
+            fontSize: 18
           )
         ),
 
         appBarTheme: AppBarTheme(
           actionsIconTheme: IconThemeData(color: Colors.white),
           titleTextStyle: TextStyle(
-            fontFamily: "QuickSand",
+            fontFamily: "Lato-Semibold",
             fontWeight: FontWeight.bold,
             fontSize: 20,
             color: Colors.white
