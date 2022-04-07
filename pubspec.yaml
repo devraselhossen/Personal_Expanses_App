@@ -75,7 +75,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Lato-Semibold
+    - family: Lato
       fonts:
         - asset: fonts/Lato-Semibold.ttf
           weight: 700
