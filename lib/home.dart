@@ -15,11 +15,56 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool _showChart = false;
   final List<Transaction> _userTransactions = [
     // Transaction(
-    //     id: "t1", title: "New Bat", amount: 780.50, date: DateTime.now()),
+    //     id: "t1",
+    //     title: "New Bat",
+    //     amount: 780.50,
+    //     date: DateTime.now(),
+    //     time: ''),
     // Transaction(
-    //     id: "t2", title: "New Ball", amount: 120.50, date: DateTime.now()),
+    //     id: "t2",
+    //     title: "New Ball",
+    //     amount: 120.50,
+    //     date: DateTime.now(),
+    //     time: ''),
+    // Transaction(
+    //     id: "t1",
+    //     title: "New Bat",
+    //     amount: 780.50,
+    //     date: DateTime.now(),
+    //     time: ''),
+    // Transaction(
+    //     id: "t2",
+    //     title: "New Ball",
+    //     amount: 120.50,
+    //     date: DateTime.now(),
+    //     time: ''),
+    // Transaction(
+    //     id: "t1",
+    //     title: "New Bat",
+    //     amount: 780.50,
+    //     date: DateTime.now(),
+    //     time: ''),
+    // Transaction(
+    //     id: "t2",
+    //     title: "New Ball",
+    //     amount: 120.50,
+    //     date: DateTime.now(),
+    //     time: ''),
+    // Transaction(
+    //     id: "t1",
+    //     title: "New Bat",
+    //     amount: 780.50,
+    //     date: DateTime.now(),
+    //     time: ''),
+    // Transaction(
+    //     id: "t2",
+    //     title: "New Ball",
+    //     amount: 120.50,
+    //     date: DateTime.now(),
+    //     time: ''),
   ];
 
   void _addNewTransaction(
@@ -29,8 +74,7 @@ class _HomeState extends State<Home> {
         title: txTitle,
         amount: txAmount,
         date: chosenDate,
-        time: choseTime
-        );
+        time: choseTime);
 
     setState(() {
       _userTransactions.add(newTx);
@@ -63,23 +107,47 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final _appbar = AppBar(
+      title: Text("Personal Expanses"),
+      actions: [
+        IconButton(
+            onPressed: () {
+              startAddNewTransaction(context);
+            },
+            icon: Icon(Icons.add))
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Personal Expanses"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                startAddNewTransaction(context);
-              },
-              icon: Icon(Icons.add))
-        ],
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Chart(_recentTransactions),
-          TransactionList(_userTransactions, _deleteTransaction)
-        ],
+      appBar: _appbar,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Show Chart"),
+                Switch(value: _showChart, onChanged: (value) {
+                  setState(() {
+                    _showChart = value;
+                  });
+                })
+              ],
+            ),
+            _showChart ? Container(
+                height: (MediaQuery.of(context).size.height -
+                        _appbar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.35,
+                child: Chart(_recentTransactions))
+           : Container(
+                height: (MediaQuery.of(context).size.height -
+                        _appbar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.65,
+                child: TransactionList(_userTransactions, _deleteTransaction))
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(

@@ -12,43 +12,46 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 20,
-          child: FittedBox(child: Text('\$${spendingToatalAmount.toStringAsFixed(0)}'))
+    return LayoutBuilder(builder: (ctx, constrains) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+              height: constrains.maxHeight * 0.15,
+              child: FittedBox(
+                  child: Text('\$${spendingToatalAmount.toStringAsFixed(0)}'))),
+          SizedBox(
+            height: constrains.maxHeight * 0.05,
           ),
-        SizedBox(
-          height: 4,
-        ),
-        Container(
-          height: 60,
-          width: 10,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1),
-                    color: Color.fromRGBO(220, 2220, 220, 1),
-                    borderRadius: BorderRadius.circular(10)),
-              ),
-              FractionallySizedBox(
-                heightFactor: spendingPctOfTotamAmount,
-                child: Container(
+          Container(
+            height: constrains.maxHeight * 0.6,
+            width: 10,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Container(
                   decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      border: Border.all(color: Colors.grey, width: 1),
+                      color: Color.fromRGBO(220, 2220, 220, 1),
                       borderRadius: BorderRadius.circular(10)),
                 ),
-              )
-            ],
+                FractionallySizedBox(
+                  heightFactor: spendingPctOfTotamAmount,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        SizedBox(
-          height: 4,
-        ),
-        Text(lable)
-      ],
-    );
+          SizedBox(
+            height: constrains.maxHeight * 0.05,
+          ),
+          Container(height: constrains.maxHeight * 0.15, child: Text(lable))
+        ],
+      );
+    });
   }
 }

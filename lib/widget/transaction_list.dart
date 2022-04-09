@@ -13,84 +13,81 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      fit : FlexFit.tight,
-      child: transactions.isEmpty
-          ? Column(
-              children: [
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "No data added yet!",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                    height: 200,
-                    child: Image.asset(
-                      "assets/iamges/waiting.png",
-                      fit: BoxFit.cover,
-                    ))
-              ],
-            )
-          : ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: (ctx, index) {
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 4, horizontal: 5),
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        child: Padding(
-                          padding: EdgeInsets.all(7.0),
-                          child: FittedBox(
-                            child: Text(
-                                '\$${transactions[index].amount.toStringAsFixed(2)}'),
-                          ),
+    return transactions.isEmpty
+        ? Column(
+            children: [
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "No data added yet!",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                  height: 200,
+                  child: Image.asset(
+                    "assets/iamges/waiting.png",
+                    fit: BoxFit.cover,
+                  ))
+            ],
+          )
+        : ListView.builder(
+            itemCount: transactions.length,
+            itemBuilder: (ctx, index) {
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(7.0),
+                        child: FittedBox(
+                          child: Text(
+                              '\$${transactions[index].amount.toStringAsFixed(2)}'),
                         ),
                       ),
-                      title: Text(
-                        transactions[index].title,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 1),
-                            child: Text(
-                                DateFormat.yMMMMd()
-                                    .format(transactions[index].date),
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: 12)),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 1),
-                            child: Text(transactions[index].time.toString(),
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: 12)),
-                          ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        onPressed: () {
-                          deleteTx(transactions[index].id);
-                        },
-                        icon: Icon(Icons.delete),
-                        color: Theme.of(context).errorColor,
-                      ),
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 1),
+                          child: Text(
+                              DateFormat.yMMMMd()
+                                  .format(transactions[index].date),
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 12)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 1),
+                          child: Text(transactions[index].time.toString(),
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 12)),
+                        ),
+                      ],
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {
+                        deleteTx(transactions[index].id);
+                      },
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
                     ),
                   ),
-                );
-              },
-            ),
-    );
+                ),
+              );
+            },
+          );
   }
 }
 
