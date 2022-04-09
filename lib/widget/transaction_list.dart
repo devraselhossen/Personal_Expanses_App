@@ -13,8 +13,8 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
+    return Flexible(
+      fit : FlexFit.tight,
       child: transactions.isEmpty
           ? Column(
               children: [
