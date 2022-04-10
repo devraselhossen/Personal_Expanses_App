@@ -16,56 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool _showChart = false;
-  final List<Transaction> _userTransactions = [
-    // Transaction(
-    //     id: "t1",
-    //     title: "New Bat",
-    //     amount: 780.50,
-    //     date: DateTime.now(),
-    //     time: ''),
-    // Transaction(
-    //     id: "t2",
-    //     title: "New Ball",
-    //     amount: 120.50,
-    //     date: DateTime.now(),
-    //     time: ''),
-    // Transaction(
-    //     id: "t1",
-    //     title: "New Bat",
-    //     amount: 780.50,
-    //     date: DateTime.now(),
-    //     time: ''),
-    // Transaction(
-    //     id: "t2",
-    //     title: "New Ball",
-    //     amount: 120.50,
-    //     date: DateTime.now(),
-    //     time: ''),
-    // Transaction(
-    //     id: "t1",
-    //     title: "New Bat",
-    //     amount: 780.50,
-    //     date: DateTime.now(),
-    //     time: ''),
-    // Transaction(
-    //     id: "t2",
-    //     title: "New Ball",
-    //     amount: 120.50,
-    //     date: DateTime.now(),
-    //     time: ''),
-    // Transaction(
-    //     id: "t1",
-    //     title: "New Bat",
-    //     amount: 780.50,
-    //     date: DateTime.now(),
-    //     time: ''),
-    // Transaction(
-    //     id: "t2",
-    //     title: "New Ball",
-    //     amount: 120.50,
-    //     date: DateTime.now(),
-    //     time: ''),
-  ];
+  final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(
       String txTitle, double txAmount, DateTime chosenDate, String choseTime) {
@@ -117,35 +68,62 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.add))
       ],
     );
+
+    final mediaQuery = MediaQuery.of(context);
+
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+
+    final txList = Container(
+        height: (mediaQuery.size.height -
+                _appbar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.65,
+        child: TransactionList(_userTransactions, _deleteTransaction));
+
     return Scaffold(
       appBar: _appbar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Show Chart"),
-                Switch(value: _showChart, onChanged: (value) {
-                  setState(() {
-                    _showChart = value;
-                  });
-                })
-              ],
-            ),
-            _showChart ? Container(
-                height: (MediaQuery.of(context).size.height -
-                        _appbar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.35,
-                child: Chart(_recentTransactions))
-           : Container(
-                height: (MediaQuery.of(context).size.height -
-                        _appbar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.65,
-                child: TransactionList(_userTransactions, _deleteTransaction))
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Show Chart",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Switch(
+                      activeColor: Theme.of(context).accentColor,
+                      inactiveThumbColor: Colors.black,
+                      inactiveTrackColor: Colors.black.withOpacity(0.5),
+                      value: _showChart,
+                      onChanged: (value) {
+                        setState(() {
+                          _showChart = value;
+                        });
+                      })
+                ],
+              ),
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      height: (mediaQuery.size.height -
+                              _appbar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          0.65,
+                      child: Chart(_recentTransactions))
+                  : Text(""),
+            if (isLandscape) txList,
+            if (!isLandscape)
+              Container(
+                  height: (mediaQuery.size.height -
+                          _appbar.preferredSize.height -
+                          mediaQuery.padding.top) *
+                      0.35,
+                  child: Chart(_recentTransactions)),
+            if (!isLandscape) txList,
           ],
         ),
       ),

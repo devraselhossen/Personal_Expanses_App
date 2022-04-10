@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, use_key_in_widget_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, must_be_immutable, use_key_in_widget_constructors, sized_box_for_whitespace, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,27 +13,33 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return transactions.isEmpty
-        ? Column(
-            children: [
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                "No data added yet!",
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                  height: 200,
-                  child: Image.asset(
-                    "assets/iamges/waiting.png",
-                    fit: BoxFit.cover,
-                  ))
-            ],
-          )
+        ? LayoutBuilder(builder: (ctx, constrains) {
+            return Column(
+              children: [
+                Text(
+                  "No transaction added yet!",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                isLandscape
+                    ? SizedBox(
+                        height: 2,
+                      )
+                    : SizedBox(
+                        height: 20,
+                      ),
+                Container(
+                    height: constrains.maxHeight * 0.6,
+                    child: Image.asset(
+                      "assets/iamges/waiting.png",
+                      fit: BoxFit.cover,
+                    ))
+              ],
+            );
+          })
         : ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (ctx, index) {
@@ -65,24 +71,33 @@ class TransactionList extends StatelessWidget {
                           child: Text(
                               DateFormat.yMMMMd()
                                   .format(transactions[index].date),
-                              style: TextStyle(
-                                  color: Colors.grey, fontSize: 12)),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12)),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 1),
                           child: Text(transactions[index].time.toString(),
-                              style: TextStyle(
-                                  color: Colors.grey, fontSize: 12)),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12)),
                         ),
                       ],
                     ),
-                    trailing: IconButton(
-                      onPressed: () {
-                        deleteTx(transactions[index].id);
-                      },
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                    ),
+                    trailing: MediaQuery.of(context).size.width > 460
+                        ? FlatButton.icon(
+                            textColor: Theme.of(context).errorColor,
+                            onPressed: () {
+                              deleteTx(transactions[index].id);
+                            },
+                            label: Text("Delete"),
+                            icon: Icon(Icons.delete),
+                          )
+                        : IconButton(
+                            onPressed: () {
+                              deleteTx(transactions[index].id);
+                            },
+                            icon: Icon(Icons.delete),
+                            color: Theme.of(context).errorColor,
+                          ),
                   ),
                 ),
               );

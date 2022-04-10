@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, unused_field
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, unused_field, unnecessary_brace_in_string_interps
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +25,10 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null || _selectedTime == null) {
+    if (enteredTitle.isEmpty ||
+        enteredAmount <= 0 ||
+        _selectedDate == null ||
+        _selectedTime == null) {
       return;
     }
     widget.addTx(enteredTitle, enteredAmount, _selectedDate, _selectedTime);
@@ -50,13 +53,11 @@ class _NewTransactionState extends State<NewTransaction> {
   }
 
   void _presentTimePicker() {
-    showTimePicker(
-      context: context, 
-      initialTime: TimeOfDay.now()
-    ).then((pickedTime) {
+    showTimePicker(context: context, initialTime: TimeOfDay.now())
+        .then((pickedTime) {
       if (pickedTime == null) {
         return;
-      }else {
+      } else {
         setState(() {
           _selectedTime = pickedTime.format(context).toString();
         });
@@ -66,83 +67,91 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-      return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: "Title"),
-              controller: _titleController,
-              onSubmitted: (_) => _submitData(),
-              keyboardType: TextInputType.text,
-              // onChanged: (val) => titleInput = val,
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: "Amount"),
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-              // onChanged: (val) => amountInput = val,
-            ),
-            Row(
-              children: [
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: Text(
-                    _selectedDate == null
-                        ? "No Date Chosen!"
-                        : "Picked Date : ${DateFormat.yMMMd().format(_selectedDate!)}",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: _presentdatePicker,
-                  child: Text(
-                    "Chose Date",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  textColor: Theme.of(context).primaryColor,
-                )
-              ],
-            ),
-            Row(
-              children: [
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: Text(
-                    _selectedTime == null
-                        ? "No Time Chosen!"
-                        : "Picked Time : ${_selectedTime}",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: _presentTimePicker,
-                  child: Text(
-                    "Chose Time",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  textColor: Theme.of(context).primaryColor,
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: RaisedButton(
-                color: Theme.of(context).primaryColor,
-                textColor: Colors.white,
-                onPressed: () {
-                  _submitData();
-                },
-                child: Text(
-                  "Add Transaction",
-                ),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: "Title"),
+                controller: _titleController,
+                onSubmitted: (_) => _submitData(),
+                keyboardType: TextInputType.text,
+                // onChanged: (val) => titleInput = val,
               ),
-            )
-          ],
+              TextField(
+                decoration: InputDecoration(labelText: "Amount"),
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+                // onChanged: (val) => amountInput = val,
+              ),
+              Row(
+                children: [
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: Text(
+                      _selectedDate == null
+                          ? "No Date Chosen!"
+                          : "Picked Date : ${DateFormat.yMMMd().format(_selectedDate!)}",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  FlatButton(
+                    onPressed: _presentdatePicker,
+                    child: Text(
+                      "Chose Date",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    textColor: Theme.of(context).primaryColor,
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: Text(
+                      _selectedTime == null
+                          ? "No Time Chosen!"
+                          : "Picked Time : ${_selectedTime}",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  FlatButton(
+                    onPressed: _presentTimePicker,
+                    child: Text(
+                      "Chose Time",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    textColor: Theme.of(context).primaryColor,
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                child: RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    _submitData();
+                  },
+                  child: Text(
+                    "Add Transaction",
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
