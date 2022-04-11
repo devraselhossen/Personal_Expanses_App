@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, deprecated_member_use
 
 import 'package:flutter/material.dart';
-
 import 'model/transaction.dart';
 import 'widget/chart.dart';
 import 'widget/new_transaction.dart';
@@ -107,14 +106,13 @@ class _HomeState extends State<Home> {
                 ],
               ),
             if (isLandscape)
-              _showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              _appbar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.65,
-                      child: Chart(_recentTransactions))
-                  : Text(""),
+              if (_showChart)
+                Container(
+                    height: (mediaQuery.size.height -
+                            _appbar.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        0.65,
+                    child: Chart(_recentTransactions)),
             if (isLandscape) txList,
             if (!isLandscape)
               Container(
