@@ -55,6 +55,52 @@ class _HomeState extends State<Home> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(
+      MediaQueryData myMediaQuery, AppBar myAppbar, Widget txList) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Show Chart",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          Switch(
+              activeColor: Theme.of(context).accentColor,
+              inactiveThumbColor: Colors.black,
+              inactiveTrackColor: Colors.black.withOpacity(0.5),
+              value: _showChart,
+              onChanged: (value) {
+                setState(() {
+                  _showChart = value;
+                });
+              })
+        ],
+      ),
+      if (_showChart)
+        Container(
+            height: (myMediaQuery.size.height -
+                    myAppbar.preferredSize.height -
+                    myMediaQuery.padding.top) *
+                0.65,
+            child: Chart(_recentTransactions)),
+      txList
+    ];
+  }
+
+  List<Widget> _buildPortaitContent(
+      MediaQueryData myMediaQuery, AppBar myAppbar, Widget txList) {
+    return [
+      Container(
+          height: (myMediaQuery.size.height -
+                  myAppbar.preferredSize.height -
+                  myMediaQuery.padding.top) *
+              0.35,
+          child: Chart(_recentTransactions)),
+      txList
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final _appbar = AppBar(
@@ -86,42 +132,9 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Show Chart",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Switch(
-                      activeColor: Theme.of(context).accentColor,
-                      inactiveThumbColor: Colors.black,
-                      inactiveTrackColor: Colors.black.withOpacity(0.5),
-                      value: _showChart,
-                      onChanged: (value) {
-                        setState(() {
-                          _showChart = value;
-                        });
-                      })
-                ],
-              ),
-            if (isLandscape)
-              if (_showChart)
-                Container(
-                    height: (mediaQuery.size.height -
-                            _appbar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.65,
-                    child: Chart(_recentTransactions)),
-            if (isLandscape) txList,
+              ..._buildLandscapeContent(mediaQuery, _appbar, txList),
             if (!isLandscape)
-              Container(
-                  height: (mediaQuery.size.height -
-                          _appbar.preferredSize.height -
-                          mediaQuery.padding.top) *
-                      0.35,
-                  child: Chart(_recentTransactions)),
-            if (!isLandscape) txList,
+              ..._buildPortaitContent(mediaQuery, _appbar, txList),
           ],
         ),
       ),
