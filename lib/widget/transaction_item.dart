@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors, prefer_const_constructors, deprecated_member_use
+// ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors, prefer_const_constructors, deprecated_member_use, non_constant_identifier_names
 
 import 'dart:math';
 
@@ -11,7 +11,11 @@ class TransactionItem extends StatefulWidget {
   final Transaction transaction;
   final Function deletetx;
 
-  TransactionItem({required this.transaction, required this.deletetx});
+  TransactionItem({
+    required ValueKey<String> Key,
+    required this.transaction,
+    required this.deletetx,
+  }) : super(key: Key);
 
   @override
   State<TransactionItem> createState() => _TransactionItemState();
@@ -24,9 +28,9 @@ class _TransactionItemState extends State<TransactionItem> {
   void initState() {
     const avaliableColor = [
       Colors.red,
-      Colors.green,
+      Colors.blue,
       Colors.black,
-      Colors.deepPurple
+      Colors.amber
     ];
 
     _bgColor = avaliableColor[Random().nextInt(4)];
@@ -48,7 +52,10 @@ class _TransactionItemState extends State<TransactionItem> {
             child: Padding(
               padding: EdgeInsets.all(7.0),
               child: FittedBox(
-                child: Text('\$${widget.transaction.amount.toStringAsFixed(2)}'),
+                child: Text(
+                  '\$${widget.transaction.amount.toStringAsFixed(2)}',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),
